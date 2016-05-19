@@ -2,7 +2,7 @@ H <- function(data, memsize, bit){
   ys <- 1:length(data)
   gs <- 1:length(data)
   hs <- 1:length(data)
-  h = 0
+  h <- 0
   g <- 1:memsize
   for(i in 1:memsize){
     g[i]<-0
@@ -13,7 +13,7 @@ H <- function(data, memsize, bit){
     }
     g[memsize] <- !xor(data[j], h%%2)
     y <- xor(data[j], h%%2)
-    h <- (sum(g*1:memsize))%%bit
+    h <- (sum(g*1:memsize))%%(2^bit)
     ys[j] <- y
     gs[j] <- g[memsize]
     hs[j] <- h
