@@ -1,6 +1,7 @@
+/*
 The MIT License (MIT)
 
-Copyright Shun Sugiyama(c) 2016 
+Copyright Shun Sugiyama(c) 2016
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+test <- function(U, b){ 
+  L <- U[U<b]
+  R <- U[U>=b]
+  if(length(R)!=0 && min(R)==b){
+    print(min(R))
+    return(T)
+  }
+
+  while(length(L)>1){
+    m <- max(L)
+    L <- setdiff(L, m)
+    if(test(L, b-m)){
+       print(m)
+       return(T)
+    }
+  }
+  return(F)
+}
