@@ -23,20 +23,12 @@ SOFTWARE.
 */
 
 sum.subset.int <- function(U, b){
-  if(sum(U[U>0]) < b)return(F)
-  if(sum(U[U<0]) > b)return(F)
   if(sum(U<0)==0)return(sum.subset(U, b))
-  if(sum(U>0)==0)return(sum.subset.minus(U, b))
   a <- abs(min(U))+1
   U.prime <- U+a
-  U.prime <- sort(U.prime)
   for(k in 1:length(U)){
-    b.prime <- b+k*a
-    if(sum(U.prime[(length(U)-k+1):length(U)]) < b.prime){}
-    else{
-      flag <- sum.subset.k.int(U.prime, b.prime, k, a)
-      if(flag)return(flag)
-    }
+    flag <- sum.subset.k.int(U.prime, b+k*a, k, a)
+    if(flag)return(flag)
   }
 }
 
@@ -120,21 +112,4 @@ sum.subset <- function(U, b){
   return(F)
 }
 
-sum.subset.minus <- function(U, b){
-  L <- U[U<=b]
-  R <- U[U>b]
-  if(length(L!=0) && max(L)==b){
-    print(max(L))
-    return(T)
-  }
-
-  while(length(R)>1){
-    m <- min(R)
-    R <- setdiff(R, m)
-    if(sum.subset.minus(R, b-m)){
-      print(m)
-      return(T)
-    }
-  }
-  return(F)
-}
+sum.subse
