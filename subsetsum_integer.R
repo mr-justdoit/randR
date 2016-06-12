@@ -33,6 +33,7 @@ sum.subset.int <- function(U, b){
   for(k in 1:length(U)){
     b.prime <- b+k*a
     if(sum(U.prime[(length(U)-k+1):length(U)]) < b.prime){}
+    if(sum(U.prime[1:k]) > b.prime){}
     else{
       flag <- sum.subset.k.int(U.prime, b.prime, k, a)
       if(flag)return(flag)
@@ -52,10 +53,11 @@ sum.subset.k.int <- function(U, b, k, a){
       return(T)
     }
     else{
-      s <- c()
-      i <- 0
+      return(F)
     }
   }
+
+  if(k==1)return(F)
 
   while(length(L)>1){
     m <- max(L)
