@@ -22,7 +22,78 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-test <- function(U, b){ 
+sum.subset.int <- function(U, b){
+  if(sum(U<0)==0)return(sum.subset(U, b))
+  a <- abs(min(U))+1
+  U.prime <- U+a
+  for(k in 1:length(U)){
+    flag <- sum.subset.k.int(U.prime, b+k*a, k, a)
+    if(flag)return(flag)
+  }
+}
+
+sum.subset.k.int <- function(U, b, k, a){
+  L <- U[U<b]
+  R <- U[U>=b]
+  i <- 0
+  s <- c()
+  if(length(R)!=0 && min(R)==b){
+    s[i<-i+1] <- min(R)
+    if(i==k){
+      print(s-a)
+      return(T)
+    }
+    else{
+      s <- c()
+      i <- 0
+    }
+  }
+
+  while(length(L)>1){
+    m <- max(L)
+    L <- setdiff(L, m)
+    if(sum.subset.k.int(L, b-m, k-1, a)){
+       s[i<-i+1] <- m
+       print(s-a)
+       return(T)
+    }
+  }
+  return(F)
+}
+
+
+sum.subset.k <- function(U, b, k){ 
+  L <- U[U<b]
+  R <- U[U>=b]
+  i <- 0
+  s <- c()
+  if(length(R)!=0 && min(R)==b){
+    s[i<-i+1] <- min(R)
+    if(i==k){
+      print(s)
+      return(T)
+    }
+    else{
+      s <- c()
+      i <- 0
+    }
+  }
+
+  while(length(L)>1){
+    m <- max(L)
+    L <- setdiff(L, m)
+    if(sum.subset.k(L, b-m, k-1)){
+       s[i<-i+1] <- m
+       print(s)
+       return(T)
+    }
+  }
+  return(F)
+}
+
+
+
+sum.subset <- function(U, b){ 
   L <- U[U<b]
   R <- U[U>=b]
   if(length(R)!=0 && min(R)==b){
@@ -33,7 +104,7 @@ test <- function(U, b){
   while(length(L)>1){
     m <- max(L)
     L <- setdiff(L, m)
-    if(test(L, b-m)){
+    if(sum.subset(L, b-m)){
        print(m)
        return(T)
     }
