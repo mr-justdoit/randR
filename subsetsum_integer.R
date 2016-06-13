@@ -33,7 +33,7 @@ sum.subset.int <- function(U, b){
   for(k in 1:length(U)){
     b.prime <- b+k*a
     if(sum(U.prime[(length(U)-k+1):length(U)]) < b.prime){}
-    if(sum(U.prime[1:k]) > b.prime){}
+    else if(sum(U.prime[1:k]) > b.prime){}
     else{
       flag <- sum.subset.k.int(U.prime, b.prime, k, a)
       if(flag)return(flag)
@@ -46,20 +46,24 @@ sum.subset.k.int <- function(U, b, k, a){
   R <- U[U>=b]
   i <- 0
   s <- c()
-  if(length(R)!=0 && min(R)==b){
+  if(k < 1)return(F)
+  if(length(L)<k)return(F)
+  if(length(R)==0){}
+  else if(min(R)==b){
     s[i<-i+1] <- min(R)
     if(i==k){
       print(s-a)
       return(T)
-    }
-    else{
+    }else{
       return(F)
     }
   }
 
-  if(k==1)return(F)
-
   while(length(L)>1){
+    if(sum(L) < b)return(F)
+    if(sum(L[(length(L)-k+1):length(L)]) < b)return(F)
+    if(sum(L[1:k]) > b)return(F)
+    if(length(L) < k)return(F)
     m <- max(L)
     L <- setdiff(L, m)
     if(sum.subset.k.int(L, b-m, k-1, a)){
