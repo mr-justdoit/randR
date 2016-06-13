@@ -25,8 +25,6 @@ SOFTWARE.
 sum.subset.int <- function(U, b){
   if(sum(U[U>0]) < b)return(F)
   if(sum(U[U<0]) > b)return(F)
-  if(sum(U<0)==0)return(sum.subset(U, b))
-  if(sum(U>0)==0)return(sum.subset.minus(U, b))
   a <- abs(min(U))+1
   U.prime <- U+a
   U.prime <- sort(U.prime)
