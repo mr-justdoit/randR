@@ -25,6 +25,9 @@ SOFTWARE.
 sum.subset.int <- function(U, b){
   if(sum(U[U>0]) < b)return(F)
   if(sum(U[U<0]) > b)return(F)
+  flag <- sum.subset(U[U>0])
+  flag <- flag + sum.subset.minus(U[U<0])
+  if(flag)return(flag)
   a <- abs(min(U))+1
   U.prime <- U+a
   U.prime <- sort(U.prime)
@@ -41,37 +44,40 @@ sum.subset.int <- function(U, b){
 }
 
 sum.subset.k.int <- function(U, b, k, a){
-  L <- U[U<b]
-  R <- U[U>=b]
-  i <- 0
-  s <- c()
-  if(k < 1)return(F)
-  if(length(L)<k)return(F)
-  if(length(R)==0){}
-  else if(min(R)==b){
-    s[i<-i+1] <- min(R)
-    if(i==k){
-      print(s-a)
-      return(T)
-    }else{
-      return(F)
+  if(k<1){return(F)}
+
+  L <- sort(U[U<b])
+  R <- sort(U[U>=b])
+
+  if(k==1){
+    flag <- R[1]==b
+    if(flag){
+       print(R[1])
     }
+    return(flag)
+  } else if(k==2) {
+    L.max <- L[length(L)]
+    flag <- (b-L.max]) %in% L
+    if(flag){
+      print(L.max-a)
+      print(b-L.max-a)
+    }
+    return(flag)
   }
 
-  while(length(L)>1){
-    if(sum(L) < b)return(F)
-    if(sum(L[(length(L)-k+1):length(L)]) < b)return(F)
-    if(sum(L[1:k]) > b)return(F)
-    if(length(L) < k)return(F)
-    m <- max(L)
-    L <- setdiff(L, m)
-    if(sum.subset.k.int(L, b-m, k-1, a)){
-       s[i<-i+1] <- m
-       print(s-a)
-       return(T)
+  while(length(L) > k){
+    if(sum(L[(length(L)-k+1):length(L)]) < b){return(F)}
+    else if(sum(L[1:k]) > b){return(F)}
+    else if((L[length(L)]+L[1]) > b){return(F)}
+    else{
+        L.max <- L[length(L)]
+	L.min <- L[1]
+	if(sum.subset.k.int(L, b-L.max, k-1, a)){
+          print(L.max-a)
+          return(T)
+	}
     }
   }
-  print("HOO")
   return(F)
 }
 
