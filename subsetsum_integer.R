@@ -46,13 +46,13 @@ sum.subset.int <- function(U, b){
 sum.subset.k.int <- function(U, b, k, a){
   if(k<1){return(F)}
 
-  L <- sort(U[U<b])
-  R <- sort(U[U>=b])
+  L <- U[U<b]
+  R <- U[U>=b]
 
   if(k==1){
     flag <- R[1]==b
     if(flag){
-       print(R[1])
+       print(R[1]-a)
     }
     return(flag)
   }
@@ -64,6 +64,7 @@ sum.subset.k.int <- function(U, b, k, a){
     else{
         L.max <- L[length(L)]
 	L.min <- L[1]
+	L <- L[-length(L)]
 	if(sum.subset.k.int(L, b-L.max, k-1, a)){
           print(L.max-a)
           return(T)
