@@ -25,9 +25,9 @@ SOFTWARE.
 sum.subset.int <- function(U, b){
   if(sum(U[U>0]) < b)return(F)
   if(sum(U[U<0]) > b)return(F)
-  flag <- sum.subset(U[U>0])
-  flag <- flag + sum.subset.minus(U[U<0])
-  if(flag)return(flag)
+  flag <- sum.subset(U[U>0],b)
+  flag <- flag + sum.subset.minus(U[U<0],b)
+  if(flag)return(T)
   a <- abs(min(U))+1
   U.prime <- U+a
   U.prime <- sort(U.prime)
@@ -53,14 +53,6 @@ sum.subset.k.int <- function(U, b, k, a){
     flag <- R[1]==b
     if(flag){
        print(R[1])
-    }
-    return(flag)
-  } else if(k==2) {
-    L.max <- L[length(L)]
-    flag <- (b-L.max]) %in% L
-    if(flag){
-      print(L.max-a)
-      print(b-L.max-a)
     }
     return(flag)
   }
